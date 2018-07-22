@@ -15,6 +15,7 @@ export class LessonTabsComponent implements OnInit {
       params => this.setParams(params));
   }
 
+  isDataLoaded = false;
   courseId;
   moduleId;
   lessonId;
@@ -24,13 +25,18 @@ export class LessonTabsComponent implements OnInit {
     this.courseId = params['courseId'];
     this.moduleId = params['moduleId'];
     this.lessonId = params['lessonId'];
-    this.loadLessons(this.moduleId);
+    if (this.moduleId) {
+      this.loadLessons(this.moduleId);
+    }
   }
 
   loadLessons(moduleId) {
     this.moduleId = moduleId;
     this.service.findLessonsForModule(moduleId)
-      .then(lessons => this.lessons = lessons);
+      .then(lessons => this.lessons = lessons)
+      .then(() => {
+        this.isDataLoaded = true;
+      });
   }
   ngOnInit() {
 

@@ -1,0 +1,54 @@
+<div *ngIf="isDataLoaded">
+  <div class="list-group">
+    <ng-container *ngFor="let widget of widgets">
+
+      <div
+        *ngIf="widget.widgetType === 'Heading'"
+        class="list-group-item wbdv">
+        <h1 *ngIf="widget.size === 1">
+          {{widget.text}}
+        </h1>
+        <h2 *ngIf="widget.size === 2">
+          {{widget.text}}
+        </h2>
+        <h3 *ngIf="widget.size === 3">
+          {{widget.text}}
+        </h3>
+      </div>
+
+      <div
+        *ngIf="widget.widgetType === 'List'"
+        class="list-group-item wbdv">
+        <ul *ngIf="widget.listType === 'unordered'">
+          <li *ngFor="let item of splitListItem(widget.listItems)">
+            {{item}}
+          </li>
+        </ul>
+        <ol *ngIf="widget.listType === 'ordered'">
+          <li *ngFor="let item of splitListItem(widget.listItems)">
+            {{item}}
+          </li>
+        </ol>
+      </div>
+
+      <div
+        *ngIf="widget.widgetType === 'Image'"
+        class="list-group-item wbdv">
+        <img src={{widget.src}}/>
+      </div>
+
+      <div
+        *ngIf="widget.widgetType === 'Link'"
+        class="list-group-item wbdv">
+        <a href={{widget.href}}>{{widget.text}}</a>
+      </div>
+
+      <div
+        *ngIf="widget.widgetType === 'Paragraph'"
+        class="list-group-item wbdv">
+        <div>{{widget.text}}</div>
+      </div>
+
+    </ng-container>
+  </div>
+</div>

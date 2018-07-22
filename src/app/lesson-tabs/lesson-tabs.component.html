@@ -1,8 +1,11 @@
-<ul class="nav nav-tabs">
-  <li *ngFor="let lesson of lessons" class="nav-item">
-    <a class="nav-link active"
+<ul *ngIf="isDataLoaded" class="nav nav-tabs">
+  <li *ngFor="let lesson of lessons" class="nav-item wbdv">
+    <a
        [ngClass]="{'active': lesson.id == lessonId}"
+       class="list-group-item wbdv"
        routerLink="/course/{{courseId}}/module/{{moduleId}}/lesson/{{lesson.id}}">
       {{lesson.title}}</a>
   </li>
+
 </ul>
+<app-topic-tabs></app-topic-tabs>
