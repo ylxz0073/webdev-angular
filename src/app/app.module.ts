@@ -20,7 +20,10 @@ import { TopicTabsComponent } from './topic-tabs/topic-tabs.component';
 import {TopicServiceClient} from './services/topic.service.client';
 import { WidgetListComponent } from './widget-list/widget-list.component';
 import {WidgetServiceClient} from './services/widget.service.client';
-import { WidgetItemComponent } from './widget-item/widget-item.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { RegisterComponent } from './register/register.component';
+import { SectionListComponent } from './section-list/section-list.component';
 
 
 @NgModule({
@@ -35,6 +38,10 @@ import { WidgetItemComponent } from './widget-item/widget-item.component';
     LessonTabsComponent,
     TopicTabsComponent,
     WidgetListComponent,
+    LoginComponent,
+    ProfileComponent,
+    RegisterComponent,
+    SectionListComponent,
   ],
   imports: [
     BrowserModule,
