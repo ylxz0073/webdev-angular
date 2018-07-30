@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
 import {SectionServiceClient} from '../services/section.service.client';
 import {CourseServiceClient} from '../services/course.service.client';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-section-list',
@@ -13,24 +14,48 @@ export class SectionListComponent implements OnInit {
 
   constructor(private service: SectionServiceClient,
               private courseService: CourseServiceClient,
+              private sectionService: SectionServiceClient,
               private router: Router,
               private route: ActivatedRoute) {
     this.route.params.subscribe(params => this.loadSections(params['courseId']));
   }
 
+  isEnrolledAnySection = false;
+  isDataLoaded = false;
   sectionName = '';
   seats = '';
   courseId = '';
   sections = [];
+  enrolledSections = [];
+  enrolledSectionIds: number[] = [];
   loadSections(courseId) {
     this.courseId = courseId;
     this.courseService
       .findCourseById(courseId)
-      .then((course) => this.sectionName = course.title + ' Section 1');
-    this
+      .then((course) => this.sectionName = course.title + ' Section 1')
+      .then(() => this.loadSectionsForStudent())
+      .then(() => this.loadSectionsForCourse())
+      .then(() => this.isDataLoaded = true);
+  }
+  loadSectionsForStudent() {
+    return this.sectionService
+      .findSectionsForStudent()
+      .then(sections => {
+        console.log(sections);
+        sections.forEach( (s) => {
+          this.enrolledSectionIds.push(s.section._id);
+        });
+         return this.enrolledSections = sections;
+      } );
+  }
+  loadSectionsForCourse() {
+    return this
       .service
-      .findSectionsForCourse(courseId)
-      .then(sections => this.sections = sections);
+      .findSectionsForCourse(this.courseId)
+      .then(sections => {
+        console.log(sections);
+        return this.sections = sections;
+      });
   }
 
   createSection(sectionName, seats) {
@@ -44,14 +69,40 @@ export class SectionListComponent implements OnInit {
 
   enroll(section) {
     // alert(section._id);
+    if (section.seats <= 0) {
+      alert('no seat available');
+    } else {
+      if (this.isEnrolledAnySection) {
+        alert('you can only enroll in one section');
+      } else {
+        this.service
+          .enrollStudentInSection(section._id)
+          .then(() => {
+            this.router.navigate(['profile']);
+          });
+      }
+    }
+  }
+  unenroll(sectionId) {
     this.service
-      .enrollStudentInSection(section._id)
+      .unenrollStudentFromSection(sectionId)
       .then(() => {
+        this.isEnrolledAnySection = false;
         this.router.navigate(['profile']);
       });
   }
+  isEnrolled(sectionId) {
+    // console.log(sectionId);
+    // console.log(this.enrolledSectionIds);
+    // console.log(this.enrolledSectionIds.indexOf(sectionId));
+    const result = this.enrolledSectionIds.indexOf(sectionId) >= 0;
+    if (result) { this.isEnrolledAnySection = true; }
+    return result;
+  }
 
   ngOnInit() {
+    this.loadSectionsForStudent();
+    this.loadSectionsForCourse();
   }
 
 }

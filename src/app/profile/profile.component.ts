@@ -31,6 +31,11 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['login']));
 
   }
+  goToCourseSection(enrollment) {
+    const courseId = enrollment.section.courseId;
+    console.log(courseId);
+    this.router.navigateByUrl('/course/' + courseId + '/section');
+  }
 
   ngOnInit() {
     this.service

@@ -10,24 +10,36 @@
   <input [(ngModel)]="user.lastName"
          placeholder="lastName"
          class="form-control"/>
+  <input [(ngModel)]="user.phone"
+         placeholder="phone number"
+         class="form-control"/>
   <input [(ngModel)]="user.email"
          placeholder="email"
+         class="form-control"/>
+  <input [(ngModel)]="user.address"
+         placeholder="address"
          class="form-control"/>
   <button (click)="update()"
           class="btn btn-primary btn-block">
     Update
   </button>
 
-  <h2>Sections ({{sections.length}})</h2>
+  <div *ngIf="!user.admin">
+    <h2>Sections ({{sections.length}})</h2>
 
-  <ul class="list-group">
-    <li *ngFor="let enrollment of sections" class="list-group-item">
-      {{enrollment.section.name}}
-      ({{enrollment.section.seats}})
-    </li>
-  </ul>
+    <ul class="list-group">
+      <li *ngFor="let enrollment of sections"
+          (click)="goToCourseSection(enrollment)"
+          class="list-group-item">
+        {{enrollment.section.name}}
+        ({{enrollment.section.seats}})
+      </li>
+    </ul>
+  </div>
+
 
   <a (click)="logout()">Logout</a>
   <a routerLink="/home">Home</a>
+  <a *ngIf="user.admin" routerLink="/admin">Admin</a>
 
 </div>

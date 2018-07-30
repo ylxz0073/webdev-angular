@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserServiceClient} from '../services/user.service.client';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private service: UserServiceClient) { }
+  isAdmin = false;
+  curUser;
   ngOnInit() {
+   this.service.profile()
+     .then((user) => this.curUser = user)
+     .then(() => {
+       if (this.curUser.admin) {
+         this.isAdmin = true;
+       }
+     });
   }
 
 }
