@@ -1,7 +1,23 @@
 export class UserServiceClient {
-
   findUserById(userId) {
     return fetch('http://localhost:4000/api/user/' + userId)
+      .then(response => response.json());
+  }
+  findUserByUsername(username) {
+    return fetch('http://localhost:4000/api/user/username/' + username)
+      .then(response => response.json());
+  }
+  updateUser(userId, user) {
+    console.log(userId);
+    console.log(user);
+    return fetch('http://localhost:4000/api/user/' + userId, {
+      method: 'put',
+      credentials: 'include',
+      body: JSON.stringify(user),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
       .then(response => response.json());
   }
 
@@ -17,7 +33,7 @@ export class UserServiceClient {
       headers: {
         'content-type': 'application/json'
       }
-    });
+    }).then(response => response.json());
   }
 
   logout() {
@@ -47,6 +63,10 @@ export class UserServiceClient {
       headers: {
         'content-type': 'application/json'
       }
+    }).then(response => {
+      console.log(response);
+      const res = response.json();
+      return res;
     });
   }
 }

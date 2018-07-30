@@ -24,6 +24,8 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { SectionListComponent } from './section-list/section-list.component';
+import {SectionServiceClient} from './services/section.service.client';
+import {UserServiceClient} from './services/user.service.client';
 
 
 @NgModule({
@@ -54,7 +56,9 @@ import { SectionListComponent } from './section-list/section-list.component';
     ModuleServiceClient,
     LessonServiceClient,
     TopicServiceClient,
-    WidgetServiceClient
+    WidgetServiceClient,
+    SectionServiceClient,
+    UserServiceClient
   ],
   bootstrap: [AppComponent]
 })

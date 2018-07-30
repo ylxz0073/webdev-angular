@@ -1,21 +1,21 @@
 <div class="container-fluid">
-  <h1>Register</h1>
-
-  <input [(ngModel)]="username"
-         placeholder="username"
-         class="form-control"/>
-  <input [(ngModel)]="password"
-         placeholder="password"
-         class="form-control"/>
-  <input [(ngModel)]="password2"
-         placeholder="verify password"
-         class="form-control"/>
-  <button (click)="register(username, password, password2)"
-          class="btn btn-primary btn-block">
-    Register
+  <h1>Sections for course: {{courseId}}</h1>
+  <input [(ngModel)]="sectionName"
+         placeholder="Section Name"
+         class="form-control">
+  <input [(ngModel)]="seats"
+         placeholder="Seats available"
+         class="form-control">
+  <button (click)="createSection(sectionName, seats)" class="btn btn-success btn-block">
+    Add Section
   </button>
 
-  <a routerLink="/login">Login</a>
-  <a routerLink="/home">Home</a>
+  <ul class="list-group">
+    <li *ngFor="let section of sections" class="list-group-item">
+      {{section.name}} {{section.seats}}
+      <button (click)="enroll(section)"
+              class="float-right btn btn-primary">Enroll</button>
+    </li>
+  </ul>
 
 </div>

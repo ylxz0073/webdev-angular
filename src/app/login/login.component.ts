@@ -14,8 +14,12 @@ export class LoginComponent implements OnInit {
     console.log([username, password]);
     this.service
       .login(username, password)
-      .then(() => {
-        this.router.navigate(['profile']);
+      .then((data) => {
+        if (!data) {
+          alert('invalid credentials');
+        } else {
+          this.router.navigate(['profile']);
+        }
       });
   }
 
