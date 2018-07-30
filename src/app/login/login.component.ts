@@ -18,7 +18,12 @@ export class LoginComponent implements OnInit {
         if (!data) {
           alert('invalid credentials');
         } else {
-          this.router.navigate(['profile']);
+          console.log(data);
+          if (data.admin === true) {
+            this.router.navigate(['admin']);
+          } else {
+            this.router.navigate(['profile']);
+          }
         }
       });
   }
