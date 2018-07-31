@@ -42,6 +42,13 @@ export class UserServiceClient {
       credentials: 'include'
     });
   }
+  deleteUser() {
+    return fetch('http://localhost:4000/api/profile', {
+      method: 'delete',
+      credentials: 'include'
+    })
+      .then(response => response.json());
+  }
 
   profile() {
     return fetch('http://localhost:4000/api/profile',

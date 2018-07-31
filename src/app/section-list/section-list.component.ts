@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {SectionServiceClient} from '../services/section.service.client';
 import {CourseServiceClient} from '../services/course.service.client';
 import {forEach} from '@angular/router/src/utils/collection';
+import {UserServiceClient} from '../services/user.service.client';
 
 @Component({
   selector: 'app-section-list',
@@ -15,6 +16,7 @@ export class SectionListComponent implements OnInit {
   constructor(private service: SectionServiceClient,
               private courseService: CourseServiceClient,
               private sectionService: SectionServiceClient,
+              private userService: UserServiceClient,
               private router: Router,
               private route: ActivatedRoute) {
     this.route.params.subscribe(params => this.loadSections(params['courseId']));
@@ -28,14 +30,30 @@ export class SectionListComponent implements OnInit {
   sections = [];
   enrolledSections = [];
   enrolledSectionIds: number[] = [];
+  curUser;
   loadSections(courseId) {
     this.courseId = courseId;
-    this.courseService
-      .findCourseById(courseId)
-      .then((course) => this.sectionName = course.title + ' Section 1')
-      .then(() => this.loadSectionsForStudent())
-      .then(() => this.loadSectionsForCourse())
-      .then(() => this.isDataLoaded = true);
+    this.getCurrentUser()
+      .then(() => { console.log(this.curUser);
+        if (this.curUser) {
+      this.courseService
+        .findCourseById(courseId)
+        .then((course) => this.sectionName = course.title + ' Section 1')
+        .then(() => this.loadSectionsForStudent())
+        .then(() => this.loadSectionsForCourse())
+        .then(() => this.isDataLoaded = true);
+    } else {
+        this.courseService
+          .findCourseById(courseId)
+          .then((course) => this.sectionName = course.title + ' Section 1')
+          .then(() => this.loadSectionsForCourse())
+          .then(() => this.isDataLoaded = true);
+      }
+      });
+  }
+  getCurrentUser() {
+    return this.userService.profile()
+      .then((user) => this.curUser = user);
   }
   loadSectionsForStudent() {
     return this.sectionService
@@ -69,7 +87,10 @@ export class SectionListComponent implements OnInit {
 
   enroll(section) {
     // alert(section._id);
-    if (section.seats <= 0) {
+    if (!this.curUser) {
+      alert('please login to enroll');
+      this.router.navigate(['login']);
+    } else if (section.seats <= 0) {
       alert('no seat available');
     } else {
       if (this.isEnrolledAnySection) {
@@ -101,8 +122,6 @@ export class SectionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadSectionsForStudent();
-    this.loadSectionsForCourse();
   }
 
 }

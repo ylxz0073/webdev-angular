@@ -2,6 +2,7 @@
   <h1>Profile</h1>
 
   <input [(ngModel)]="user.username"
+         readonly
          placeholder="username"
          class="form-control"/>
   <input [(ngModel)]="user.firstName"
@@ -25,21 +26,23 @@
   </button>
 
   <div *ngIf="!user.admin">
-    <h2>Sections ({{sections.length}})</h2>
+    <h2>Courses and Sections ({{sections.length}})</h2>
 
-    <ul class="list-group">
-      <li *ngFor="let enrollment of sections"
-          (click)="goToCourseSection(enrollment)"
+    <ul *ngIf="isDataLoaded" class="list-group">
+      <li *ngFor="let section of sections; let i = index"
+          (click)="goToCourseSection(section)"
           class="list-group-item">
-        {{enrollment.section.name}}
-        ({{enrollment.section.seats}})
+        {{courses[i].title + " : "}}
+        {{section.name}}
+        ({{section.seats}})
+        <span class="float-right">grade: unknown</span>
       </li>
     </ul>
   </div>
 
 
-  <a (click)="logout()">Logout</a>
+  <a class="wbdv-danger" (click)="logout()">Logout</a>
   <a routerLink="/home">Home</a>
   <a *ngIf="user.admin" routerLink="/admin">Admin</a>
-
+  <span *ngIf="!user.admin" class="float-right wbdv-danger" (click)="destroyUser()">Destroy Profile</span>
 </div>

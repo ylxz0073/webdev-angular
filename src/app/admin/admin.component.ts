@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
    this.service.profile()
      .then((user) => this.curUser = user)
      .then(() => {
-       if (this.curUser.admin) {
+       if (this.curUser && this.curUser.admin) {
          this.isAdmin = true;
        }
      });
