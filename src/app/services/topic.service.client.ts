@@ -1,6 +1,8 @@
+import {teacherUrl} from '../constant';
+
 export class TopicServiceClient {
   findTopicsForLesson(lessonId) {
-    return fetch('http://localhost:8080/api/course/:courseId/module/:moduleId/lesson/' + lessonId + '/topic')
+    return fetch(teacherUrl + '/api/course/:courseId/module/:moduleId/lesson/' + lessonId + '/topic')
       .then(response => response.json());
   }
 }

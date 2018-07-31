@@ -1,9 +1,11 @@
+import {studentUrl} from '../constant';
+
 export class SectionServiceClient {
 
-  SECTION_URL = 'http://localhost:4000/api/course/COURSEID/section';
-  URL = 'http://localhost:4000/api/section';
+  SECTION_URL = studentUrl + '/api/course/COURSEID/section';
+  URL = studentUrl + '/api/section';
   findSectionsForStudent() {
-    const url = 'http://localhost:4000/api/student/:sid/section';
+    const url = studentUrl + '/api/student/:sid/section';
     return fetch(url, {
       credentials: 'include'
     })
@@ -11,14 +13,14 @@ export class SectionServiceClient {
   }
 
   enrollStudentInSection(sectionId) {
-    const url = 'http://localhost:4000/api/student/:sid/section/' + sectionId;
+    const url = studentUrl + '/api/student/:sid/section/' + sectionId;
     return fetch(url, {
       method: 'post',
       credentials: 'include'
     });
   }
   unenrollStudentFromSection(sectionId) {
-    const url = 'http://localhost:4000/api/student/:sid/section/' + sectionId ;
+    const url = studentUrl + '/api/student/:sid/section/' + sectionId ;
     return fetch(url, {
       method: 'delete',
       credentials: 'include'
@@ -53,7 +55,7 @@ export class SectionServiceClient {
     }).then(response => response.json());
   }
   deleteSection(sectionId) {
-    const url = 'http://localhost:4000/api/section/' + sectionId;
+    const url = studentUrl + '/api/section/' + sectionId;
     return fetch(url, {
       method: 'delete',
       credentials: 'include'

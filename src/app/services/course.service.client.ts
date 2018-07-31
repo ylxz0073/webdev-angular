@@ -1,5 +1,7 @@
+import {teacherUrl} from '../constant';
+
 export class CourseServiceClient {
-  COURSE_URL = 'http://localhost:8080/api/course';
+  COURSE_URL = teacherUrl + '/api/course';
   findAllCourses() {
     return fetch(this.COURSE_URL)
       .then(response => response.json());

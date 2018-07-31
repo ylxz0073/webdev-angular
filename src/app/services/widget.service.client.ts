@@ -1,17 +1,19 @@
+import {teacherUrl} from '../constant';
+
 export class WidgetServiceClient {
   findWidgetsForTopic(topicId) {
-    return fetch('http://localhost:8080/api/topic/' + topicId + '/widget')
+    return fetch(teacherUrl + '/api/topic/' + topicId + '/widget')
       .then(response => {
         return response.json();
       });
   }
   findAssignmentWidgetsForTopics(topicId) {
-    return fetch('http://localhost:8080/api/topic/' + topicId + '/assignment')
+    return fetch(teacherUrl + '/api/topic/' + topicId + '/assignment')
       .then(response => response.json());
   }
 
   findExamWidgetsForTopics(topicId) {
-    return fetch('http://localhost:8080/api/topic/' + topicId + '/exam')
+    return fetch(teacherUrl + '/api/topic/' + topicId + '/exam')
       .then(response => response.json());
   }
 }
